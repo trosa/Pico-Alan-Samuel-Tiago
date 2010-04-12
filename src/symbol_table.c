@@ -1,5 +1,6 @@
 #include "symbol_table.h"
 
+#include <stdlib.h>
 #include <string.h>
 
 /* Função Hash, calcula um int dado um string */
@@ -10,7 +11,7 @@ int hash_function(char* name) {
    l = strlen(name);
    r = 5377;
    for (p = name; *p != '\0'; p++) {
-      r = r << 3 + 5377 + *p;
+      r = (~r) << 2 + 5377 + *p;
    }
    return r % SYMBOL_T_SIZE;
 }
@@ -25,7 +26,13 @@ int init_table(symbol_t* table) {
 
 /* Libera a área de memória reservada para a tabela hash */
 void free_table(symbol_t* table) {
-   /* free(table); */
+   int i;
+
+   for (i = 0; i < SYMBOL_T_SIZE; i++) { /* Percorre a tabela imprimindo no arquivo o índice e o conteudo de cada posição ocupada */
+      if (table->entries[i] != NULL) {
+         free(table->entries[i]);
+      }
+   }
 }
 
 /* Retorna um ponteiro para uma dada estrutura, a partir de um nome (consulta) */
@@ -33,7 +40,7 @@ entry_t* lookup(symbol_t table, char* name) {
    int index, i0;
 
    index = i0 = hash_function(name);
-   if (table.entries[index] == NULL || strcmp(table.entries[index]->name, name) != 0) { /* Se a posição estiver vazia, ou o nome não for o procurado, procuramos na próxima estrutura da tabela */
+   while (table.entries[index] == NULL || strcmp(table.entries[index]->name, name) != 0) { /* Se a posição estiver vazia, ou o nome não for o procurado, procuramos na próxima estrutura da tabela */
       index++;
       if (index >= SYMBOL_T_SIZE) /*Caso chegue ao final da tabela, começamos a busca por seu início */
          index = 0;
@@ -56,7 +63,10 @@ int insert(symbol_t* table, entry_t* entry) {
       if (index >= SYMBOL_T_SIZE) /*Caso chegue ao final da tabela, retorna para o seu início */
          index = 0;
    }
-   table->entries[index] = entry; /* Coloca o elemento na posição indicada pelo index */
+   table->entries[index] = (entry_t*)malloc(sizeof(entry_t));
+   memcpy(table->entries[index], entry, sizeof(entry_t));
+
+   /* entry; /* Coloca o elemento na posição indicada pelo index */
    table->entries_size++; /* Guarda o tamanho total da tabela */
    return 0;
 }

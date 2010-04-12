@@ -55,7 +55,7 @@ void append_inst_tac(struct node_tac ** code_ref, struct tac * inst) {
 void cat_tac(struct node_tac ** code_a, struct node_tac ** code_b) {
    if (*code_b != NULL) {
       if (*code_a == NULL)
-         *code_a = *code_b;
+         *coda_a = *code_b;
       else {
          struct node_tac * p;
 

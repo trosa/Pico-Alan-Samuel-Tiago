@@ -1,5 +1,12 @@
 #include "../src/symbol_table.h"
+/*
+void f()
+{
+  entry_t e;
 
+  insert(&table, &e);
+}
+*/
 int main(int argc, char* argv[]) {
    symbol_t tabela;
    entry_t e1, e2, e3;
@@ -9,7 +16,7 @@ int main(int argc, char* argv[]) {
 
    e1.name = "e1";
    e2.name = "e2";
-   e3.name = "ee1";
+   e3.name = "e4";
 
    insert(&tabela, &e1);
    insert(&tabela, &e2);
@@ -17,7 +24,7 @@ int main(int argc, char* argv[]) {
 
    printf("e1 = %s\n", lookup(tabela, "e1")->name);
    printf("e2 = %s\n", lookup(tabela, "e2")->name);
-   printf("e3 = %s\n", lookup(tabela, "ee1")->name);
+   printf("e4 = %s\n", lookup(tabela, "e4")->name);
 
    print_table(tabela);
    free_table(&tabela);

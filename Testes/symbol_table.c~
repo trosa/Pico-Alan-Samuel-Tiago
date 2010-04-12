@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
 
    printf("e1 = %s\n", lookup(tabela, "e1")->name);
    printf("e2 = %s\n", lookup(tabela, "e2")->name);
-   printf("e3 = %s\n", lookup(tabela, "e4")->name);
+   printf("e4 = %s\n", lookup(tabela, "e4")->name);
 
    print_table(tabela);
    free_table(&tabela);
