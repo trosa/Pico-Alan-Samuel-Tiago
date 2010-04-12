@@ -14,7 +14,7 @@ t != sup_eq_node && t != plus_node && t != minus_node && t != mult_node && t != 
 */
 
    int i;
-   Node* n
+   Node* n;
 
 /* testamos se o número de filhos e o tipo são válidos, enquanto nós inicializamos um nodo 
 					(reutilizamos a função create_leaf para reutilizar codigo) */
@@ -22,8 +22,7 @@ t != sup_eq_node && t != plus_node && t != minus_node && t != mult_node && t != 
       return NULL;
 
    n->children_number = nbc;
-   for (i = 0; i < nbc; i++)
-      n->children[i] = children[i];
+   n->children = children;
 
    return n;
 }
@@ -40,7 +39,7 @@ Node* create_leaf(int nl, Node_type t, char* lex, void* att) {
    n->lexeme = (char*)malloc(strlen(lex) + 1);
    strcpy(n->lexeme, lex);
    n->attribute = att;
-   n->nbc = 0;
+   n->children_number = 0;
 
    return n;
 }
@@ -65,11 +64,13 @@ int deep_free_node(Node* n) {
       deep_free_node(n->children[i]);
 
    free(n->lexeme);
+   free(n->children);
    free(n);
 
    return 0;
 }
 
+/* Função recursiva que retorna a altura da árvore, ela vai até a profundidade e retorna guardando o valor da altura em max */
 int height(Node *n) {
    int i, r, max = 0;
 
@@ -82,7 +83,15 @@ int height(Node *n) {
    return max + 1;
 }
 
+/* Essa função adiciona um nodo a um array de nodos, caso esse array seja vazio (cur_size = 0), ele aloca o array; caso o array esteja cheio, ele retorna erro; caso o array já exista, ele adiciona o elemento no final do array */
 int pack_nodes(Node*** array_of_nodes, const int cur_size, Node* n) {
-   /* A IMPLEMENTAR */
+   if (cur_size >= MAX_CHILDREN_NUMBER)
+      return -1;
+
+   if (cur_size == 0)
+      *array_of_nodes = (Node**)malloc(sizeof(Node*) * MAX_CHILDREN_NUMBER);
+   (*array_of_nodes)[cur_size] = n;
+
+   return cur_size + 1;
 }
 

@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 
-#define SYMBOL_T_SIZE 1000
+#define SYMBOL_T_SIZE 0x0FFF
 
 /**
  * Tipo abstrato das entradas na tabela de Hash. (Obs.: futuramente, os campos
@@ -31,7 +31,10 @@ typedef struct {
  *
  */
 typedef struct {
-   entry_t *entries[SYMBOL_T_SIZE];
+   struct list_entry {
+      entry_t entry;
+      struct list_entry *next;
+   } *entries[SYMBOL_T_SIZE], *last[SYMBOL_T_SIZE];
    int entries_size;
 } symbol_t ;
 
