@@ -33,7 +33,8 @@ void print_tac(FILE* out, struct node_tac * code) {
 }
 
 void append_inst_tac(struct node_tac ** code_ref, struct tac * inst) {
-
+   if (inst == NULL) 
+      return;
    if (*code_ref == NULL) {
       *code_ref = (struct node_tac*)malloc(sizeof(struct node_tac));
       (*code_ref)->inst = (struct tac*)malloc(sizeof(struct tac));

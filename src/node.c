@@ -33,10 +33,14 @@ Node* create_leaf(int nl, Node_type t, char* lex, void* att) {
 
    Node* n;
 
-   n = (Node*)malloc(sizeof(Node));   
+   if ((n = (Node*)malloc(sizeof(Node))) == NULL)
+      return NULL;   
    n->num_line = nl;
    n->type = t;
-   n->lexeme = (char*)malloc(strlen(lex) + 1);
+   if ((n->lexeme = (char*)malloc(strlen(lex) + 1)) == NULL) {
+      free(n);
+      return NULL;
+   }
    strcpy(n->lexeme, lex);
    n->attribute = att;
    n->children_number = 0;
@@ -89,7 +93,8 @@ int pack_nodes(Node*** array_of_nodes, const int cur_size, Node* n) {
       return -1;
 
    if (cur_size == 0)
-      *array_of_nodes = (Node**)malloc(sizeof(Node*) * MAX_CHILDREN_NUMBER);
+      if ((*array_of_nodes = (Node**)malloc(sizeof(Node*) * MAX_CHILDREN_NUMBER)) == NULL)
+         return -1;
    (*array_of_nodes)[cur_size] = n;
 
    return cur_size + 1;

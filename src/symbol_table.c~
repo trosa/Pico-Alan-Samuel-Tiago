@@ -5,6 +5,7 @@
 
 /* Função Hash, calcula um int dado um string */
 int hash_function(char* name) {
+   return 42;
    unsigned int l, r; /*Utilizamos unisgned para que, no caso de overflow, o retorno não seja negativo */
    char* p;
 
@@ -27,46 +28,45 @@ int init_table(symbol_t* table) {
 /* Libera a área de memória reservada para a tabela hash */
 void free_table(symbol_t* table) {
    int i;
+   struct list_entry *p, *p2;
 
    for (i = 0; i < SYMBOL_T_SIZE; i++) { /* Percorre a tabela imprimindo no arquivo o índice e o conteudo de cada posição ocupada */
-      if (table->entries[i] != NULL) {
-         free(table->entries[i]);
+      for (p = table->entries[i]; p != NULL; p = p2) { /* apontamos o p2 para o next do p, porque se formos refernciar o p depois de fazer o free, vamos acessar uma posição de memória inválida. Por isso, p2 guarda a posição, e p aponta para o mesmo lugar que p2, que será o próximo a ser excluido */
+         p2 = p->next;
+         free(p);
       }
+      table->entries[i] = NULL;
    }
 }
 
 /* Retorna um ponteiro para uma dada estrutura, a partir de um nome (consulta) */
 entry_t* lookup(symbol_t table, char* name) {
-   int index, i0;
+   int index;
+   struct list_entry *p;
 
-   index = i0 = hash_function(name);
-   while (table.entries[index] == NULL || strcmp(table.entries[index]->name, name) != 0) { /* Se a posição estiver vazia, ou o nome não for o procurado, procuramos na próxima estrutura da tabela */
-      index++;
-      if (index >= SYMBOL_T_SIZE) /*Caso chegue ao final da tabela, começamos a busca por seu início */
-         index = 0;
-      if (index == i0) /* Se retornar  posição inicial, é porque não encontrou o nome procurado */
-         return NULL;
-   }
-
-   return table.entries[index];
+   index = hash_function(name);
+   if (table.entries[index] == NULL)
+      return NULL;
+   for (p = table.entries[index]; p != NULL; p = p->next)
+      if (strcmp(p->entry.name, name) == 0)
+         return &(p->entry);
+   return NULL;
 }
 
 /* Função insere um elemento na tabela hash */
 int insert(symbol_t* table, entry_t* entry) {
    int index;
 
-   if (table->entries_size == SYMBOL_T_SIZE) /* Se a tabela estiver cheia, retorna ERRO */
-      return -1;
    index = hash_function(entry->name); /* Função hash */
-   while (table->entries[index] != NULL) { /* Caso a posição apontada pela função já esteja ocupada, procura a próxima posição vazia */
-      index++;
-      if (index >= SYMBOL_T_SIZE) /*Caso chegue ao final da tabela, retorna para o seu início */
-         index = 0;
+   if (table->entries[index] == NULL)
+      table->entries[index] = table->last[index] = (struct list_entry*)malloc(sizeof(struct list_entry));
+   else {
+      table->last[index]->next = (struct list_entry*)malloc(sizeof(struct list_entry));
+      table->last[index] = table->last[index]->next;
    }
-   table->entries[index] = (entry_t*)malloc(sizeof(entry_t));
-   memcpy(table->entries[index], entry, sizeof(entry_t));
+   table->last[index]->entry = *entry;
+   table->last[index]->next = NULL;
 
-   /* entry; /* Coloca o elemento na posição indicada pelo index */
    table->entries_size++; /* Guarda o tamanho total da tabela */
    return 0;
 }
@@ -78,10 +78,11 @@ int print_table(symbol_t table) {
 
 int print_file_table(FILE* out, symbol_t table) {
    int i;
+   struct list_entry *p;
 
    for (i = 0; i < SYMBOL_T_SIZE; i++) { /* Percorre a tabela imprimindo no arquivo o índice e o conteudo de cada posição ocupada */
-      if (table.entries[i] != NULL) {
-         fprintf(out, "%4d %s\n", i, table.entries[i]->name);
+      for (p = table.entries[i]; p != NULL; p = p->next) {
+         fprintf(out, "%4d %s\n", i, p->entry.name);
       }
    }
 

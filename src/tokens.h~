@@ -26,7 +26,3 @@
 #define NEXT 282
 #define REPEAT 283
 #define UNTIL 284
-typedef union {
-   char expr[4000]; /* redefinimos a union YYSTYPE, que é o tipo da variável yylval, que conterá uma string */
-} YYSTYPE;
-extern YYSTYPE yylval;

@@ -67,8 +67,8 @@ true   { return( TRUE ); }
 false  { return( FALSE ); }
 
 [ \n\t]+ { ; } 
-({letra}|_)({letra}|{digito}|_)* { strcpy(yylval.expr, yytext); strcat(yylval.expr, " "); return( IDF ); }
-{digito}+ { strcpy(yylval.expr, yytext); strcat(yylval.expr, " "); return( INT_LIT ); } /* copiamos o valor de yytext, que é o inteiro lido pelo analisador lexical para a variável yylval, que vai ser usada pelo yacc */
+({letra}|_)({letra}|{digito}|_)* { strcpy(yylval.expr, yytext); strcat(yyval.expr, " "); return( IDF ); }
+{digito}+ { strcpy(yylval.expr, yytext); strcat(yyval.expr, " "); return( INT_LIT ); } /* copiamos o valor de yytext, que é o inteiro lido pelo analisador lexical para a variável yylval, que vai ser usada pelo yacc */
 {digito}+\.{digito}+([eE][+-]?{digito}+)? { return( F_LIT ); }
 
   /* Tratamento dos erros lexicais: a regra seguinte pega tudo o que nao

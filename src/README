@@ -1,0 +1,3 @@
+Primeiramente, tivemos problemas com o retorno da variável yylval, porque ela era declarada automaticamente no arquivo y.table.c pelo yacc e não era vista no arquivo lex.yy.c, que também é gerado através do pico.
+Então tivemos que declará-la como externa no arquivo, scanner.l para que ele a procurasse no arquivo y.tab.c
+Além disso, no pico.y tivemos que declarar o tipo YYSTYPE como union, para que ele fosse reconhecido mais tarde e também para que fosse uma string e não um int, que é o default

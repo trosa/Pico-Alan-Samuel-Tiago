@@ -56,7 +56,8 @@ typedef int Node_type;
 #define MAX_CHILDREN_NUMBER 10
 
 typedef struct _node {
-   Node* children[MAX_CHILDREN_NUMBER];
+   Node** children;     /**< array de ponteiros para os filhos*/
+   int children_number; /**< numero de filhos do nodo*/
    int num_line;   /**< numero de linha (irrelevante por enquanto).*/
    int id;         /**< rótulo do nó. Cada nó deve ter um 'id' distinto. */
    char* lexeme;   /**< irrelevante por enquanto. */
