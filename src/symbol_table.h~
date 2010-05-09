@@ -8,6 +8,12 @@
 
 #define SYMBOL_T_SIZE 0x0FFF
 
+typedef struct {
+   int c; /* constante pre-calculada pelo compilador */
+   int dim; /* numero de dimensoes do array */
+   int 
+} array_t;
+
 /**
  * Tipo abstrato das entradas na tabela de Hash. (Obs.: futuramente, os campos
  * dessa struct poderao vir a ser alterados em funcao das necessidades.)
@@ -20,7 +26,7 @@ typedef struct {
    int type;    /**< representacao do tipo da variavel. */
    int size;    /**< numero de Bytes necessarios para armazenamento. */
    int desloc;  /**< Endereco da proxima variavel. */
-   void* extra; /**< qualquer informacao extra. */
+   //void* extra; /**< qualquer informacao extra. */
 } entry_t ;
 
 

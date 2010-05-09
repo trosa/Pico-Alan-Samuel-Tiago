@@ -1,5 +1,5 @@
-i, n : int;
-x:double ;
+i, n, a: int;
+x:real ;
 x = 2.0; i=0; n=10;
 while (i <= n){
     x= x*2 ; i= i+1;

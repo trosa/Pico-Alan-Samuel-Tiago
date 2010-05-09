@@ -37,13 +37,17 @@ Node* create_leaf(int nl, Node_type t, char* lex, void* att) {
       return NULL;   
    n->num_line = nl;
    n->type = t;
-   if ((n->lexeme = (char*)malloc(strlen(lex) + 1)) == NULL) {
+   n->lexeme = NULL;
+   if (lex != NULL && (n->lexeme = (char*)malloc(strlen(lex) + 1)) == NULL) {
       free(n);
       return NULL;
    }
-   strcpy(n->lexeme, lex);
-   n->attribute = att;
+   if (lex != NULL)
+      strcpy(n->lexeme, lex);
+   //n->attribute = att;
+   n->attribute = NULL;
    n->children_number = 0;
+   n->id = __nodes_ids__++; /* Dessa forma cada nodo vai apresentar um ID diferente */
 
    return n;
 }
@@ -64,11 +68,15 @@ Node* child(Node* n, int i) {
 int deep_free_node(Node* n) {
    int i;
 
+   if (n->id == 16)
+      fprintf(stderr, "!");
    for (i = 0; i < n->children_number; i++)
       deep_free_node(n->children[i]);
 
    free(n->lexeme);
    free(n->children);
+   if (n->attribute != NULL)
+     free(n->attribute);
    free(n);
 
    return 0;

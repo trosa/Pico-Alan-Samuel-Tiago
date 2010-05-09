@@ -21,7 +21,7 @@ int hash_function(char* name) {
 int init_table(symbol_t* table) {
    /* table = (symbol_t*)malloc(sizeof(symbol_t)); */
    memset(table->entries, (int)NULL, sizeof(*(table->entries)) * SYMBOL_T_SIZE);
-   table->entries_size = 0;
+   return table->entries_size = 0;
 }
 
 /* Libera a área de memória reservada para a tabela hash */
@@ -32,6 +32,12 @@ void free_table(symbol_t* table) {
    for (i = 0; i < SYMBOL_T_SIZE; i++) { /* Percorre a tabela imprimindo no arquivo o índice e o conteudo de cada posição ocupada */
       for (p = table->entries[i]; p != NULL; p = p2) { /* apontamos o p2 para o next do p, porque se formos refernciar o p depois de fazer o free, vamos acessar uma posição de memória inválida. Por isso, p2 guarda a posição, e p aponta para o mesmo lugar que p2, que será o próximo a ser excluido */
          p2 = p->next;
+	 free(p->entry.name);
+	 if(p->entry.array != NULL) {
+	   free(p->entry.array->linf);
+	   free(p->entry.array->lsup);
+	   free(p->entry.array);
+	 }
          free(p);
       }
       table->entries[i] = NULL;

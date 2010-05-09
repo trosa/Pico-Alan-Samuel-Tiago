@@ -8,8 +8,13 @@
    
     /* este include eh importante... */
     #include "tokens.h"
+    #include "node.h"
+
+  /*Essa macro define a criação do nodo da arvore, atribui o lexema e retorna o token */
+    #define CREATE_NODE(type, token) yylval.node = create_leaf(noline, type, yytext, NULL); return(token);
 
     extern YYSTYPE yylval; /* Declaramos essa variável como externa, para que o compilador possa encontrar essa variável no y.tab.c, para poder usar no lex.yy.c. Ela atribui para poder ler os numeros reconhecidos no analisador lexical */
+    long unsigned int noline = 0;
 %}
  
   /* Definicoes regulares (A COMPLETAR conforme a especificacao) */
@@ -28,6 +33,7 @@ letra      {minusculo}|{maiusculo}
 int    { return(INT); }
 double { return(DOUBLE);}
 real   { return(REAL);}
+float  { return(REAL);}
 char   { return(CHAR);}
 "*"    { return('*');}
 "+"    { return('+');}
@@ -66,10 +72,11 @@ end    { return( END ); }
 true   { return( TRUE ); }
 false  { return( FALSE ); }
 
-[ \n\t]+ { ; } 
-({letra}|_)({letra}|{digito}|_)* { strcpy(yylval.expr, yytext); strcat(yylval.expr, " "); return( IDF ); }
-{digito}+ { strcpy(yylval.expr, yytext); strcat(yylval.expr, " "); return( INT_LIT ); } /* copiamos o valor de yytext, que é o inteiro lido pelo analisador lexical para a variável yylval, que vai ser usada pelo yacc */
-{digito}+\.{digito}+([eE][+-]?{digito}+)? { return( F_LIT ); }
+[ \t]+ { ; } 
+\n     { noline++; } /* Guardamos o numero da linha atual */
+({letra}|_)({letra}|{digito}|_)*          { CREATE_NODE( idf_node, IDF ); }
+{digito}+                                 { CREATE_NODE( int_lit_node, INT_LIT ); } /* copiamos o valor de yytext, que é o inteiro lido pelo analisador lexical para a variável yylval, que vai ser usada pelo yacc */
+{digito}+\.{digito}+([eE][+-]?{digito}+)? { CREATE_NODE( f_lit_node, F_LIT ); }
 
   /* Tratamento dos erros lexicais: a regra seguinte pega tudo o que nao
    * fechou com uma Regexp anterior.

@@ -11,43 +11,53 @@ typedef int Node_type;
 
 /* Seria de constantes que servirao para definir tipos de nos (na arvore),
  * a partir da etapa 4 - irrelevante por enquanto. */
-#define program_node   299
-#define idf_node       300
-#define int_node       301
-#define float_node     302
-#define str_node       303
+#define program_node   299 //
+#define idf_node       300 ///
+#define int_node       301 //
+#define real_node      302 //
+#define action_node    303 //
 #define empty_node     304
-#define proc_node      305
-#define param_node     306
-#define decl_node      307
-#define decl_list_node 308
+#define lvalue_node    305 //
+#define expr_list_node 306 //
+#define decl_node      307 //
+#define decl_list_node 308 //
 #define op_node        309
-#define nop_node       310
-#define return_node    311
-#define if_node        312
-#define while_node     313
+#define decls_node     310 //
+#define assig_node     311 //
+#define if_node        312 //
+#define while_node     313 //
 #define print_node     314
 #define cond_node      315
 #define affect_node    316
-#define or_node        317
-#define and_node       318
-#define eq_node        319
-#define neq_node       320
-#define inf_node       321
-#define sup_node       322
-#define inf_eq_node    323
-#define sup_eq_node    324
-#define plus_node      325
-#define minus_node     326
-#define mult_node      327
-#define div_node       328
-#define mod_node       329
-#define umenos_node    330
-#define not_node       331
-#define char_node      332
-#define bloc_node      333
-#define true_node      335
-#define false_node     336
+#define or_node        317 //
+#define and_node       318 //
+#define eq_node        319 //
+#define neq_node       320 //
+#define inf_node       321 //
+#define sup_node       322 //
+#define inf_eq_node    323 //
+#define sup_eq_node    324 //
+#define plus_node      325 //
+#define minus_node     326 //
+#define mult_node      327 //
+#define div_node       328 //
+#define end_node       329 //
+#define else_node      330 //
+#define not_node       331 //
+#define char_node      332 //
+#define enun_node      333 //
+#define true_node      335 //
+#define false_node     336 //
+
+#define double_node       337 //
+#define int_lit_node      338 ///
+#define f_lit_node        339 ///
+#define int_array_node    340 //
+#define char_array_node   341 //
+#define real_array_node   342 //
+#define double_array_node 343 //
+#define array_list_node   344 //
+#define proc_node         345 //
 
 /** Estrutura de dados parcial para o no da arvore.
  *  Trata-se de uma arvore generalizada: qualquer no pode ter de 0 ateh
