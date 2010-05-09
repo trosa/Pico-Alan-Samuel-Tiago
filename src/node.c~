@@ -8,11 +8,6 @@ static int __nodes_ids__ = 0;
 
 Node* create_node(int nl, Node_type t, char* lex, 
                   void* att, int nbc, Node** children) {
-/*
-   if (t != program_node && t != idf_node && t != int_node && t != float_node && t != str_node && t != empty_node && t != proc_node && t != param_node && t != decl_node && t != decl_list_node && t != op_node && t != nop_node && t != return_node && t != if_node && t != while_node && t != print_node && t != cond_node && t != affect_node && t != or_node && t != and_node && t != eq_node && t != neq_node && t != inf_node && t != sup_node && t != inf_eq_node && 
-t != sup_eq_node && t != plus_node && t != minus_node && t != mult_node && t != div_node && t != mod_node && t != umenos_node && t != not_node && t != char_node && t != bloc_node && t != true_node && t != false_node){
-*/
-
    int i;
    Node* n;
 
@@ -28,7 +23,7 @@ t != sup_eq_node && t != plus_node && t != minus_node && t != mult_node && t != 
 }
 
 Node* create_leaf(int nl, Node_type t, char* lex, void* att) {
-   if (t < program_node || t > false_node)
+   if (t < program_node || t > proc_node)
       return NULL;
 
    Node* n;
@@ -68,8 +63,9 @@ Node* child(Node* n, int i) {
 int deep_free_node(Node* n) {
    int i;
 
-   if (n->id == 16)
-      fprintf(stderr, "!!!!!!!!!!!!!!!!!!!");
+   if (n == NULL)
+      return;
+
    for (i = 0; i < n->children_number; i++)
       deep_free_node(n->children[i]);
 

@@ -13,7 +13,7 @@
   /*Essa macro define a criação do nodo da arvore, atribui o lexema e retorna o token */
     #define CREATE_NODE(type, token) yylval.node = create_leaf(noline, type, yytext, NULL); return(token);
 
-    extern YYSTYPE yylval; /* Declaramos essa variável como externa, para que o compilador possa encontrar essa variável no y.tab.c, para poder usar no lex.yy.c. Ela atribui para poder ler os numeros reconhecidos no analisador lexical */
+    extern YYSTYPE yylval; /* Declaramos essa variável como externa, para que o compilador possa encontrar essa variável no y.tab.c, para poder usar no lex.yy.c. */
     long unsigned int noline = 0;
 %}
  
@@ -31,52 +31,52 @@ letra      {minusculo}|{maiusculo}
   */
 
 int    { return(INT); }
-double { return(DOUBLE);}
-real   { return(REAL);}
-float  { return(REAL);}
-char   { return(CHAR);}
-"*"    { return('*');}
-"+"    { return('+');}
-"-"    { return('-');}
-"/"    { return('/');}
-","    { return(',');}
-";"    { return(';');}
-":"    { return(':');}
-"'"    { return(QUOTE);}
-"\""   { return(DQUOTE);}
-"("    { return('(');}
-")"    { return(')');}
-"["    { return('[');}
-"]"    { return(']');}
-"{"    { return('{');}
-"}"    { return('}');}
-"<"    { return('<');}
-">"    { return('>');}
-"="    { return('=');}
-"<="   { return( LE ) ; }
-">="   { return( GE ) ; }
-"=="   { return( EQ ) ; }
-"!="   { return( NE ) ; }
-"&"    { return( AND ) ; }
-"|"    { return( OR ) ; }
-"!"    { return( NOT ) ; }
-if     { return( IF ); }
-then   { return( THEN ); }
-else   { return( ELSE ); }
-for    { return( FOR ); }
-next   { return( NEXT ); }
-while  { return( WHILE ); }
-repeat { return( REPEAT ); }
-until  { return( UNTIL ); }
-end    { return( END ); }
-true   { return( TRUE ); }
-false  { return( FALSE ); }
+double { return(DOUBLE); }
+real   { return(REAL); }
+float  { return(REAL); }
+char   { return(CHAR); }
+"*"    { return('*'); }
+"+"    { return('+'); }
+"-"    { return('-'); }
+"/"    { return('/'); }
+","    { return(','); }
+";"    { return(';'); }
+":"    { return(':'); }
+"'"    { return(QUOTE); }
+"\""   { return(DQUOTE); }
+"("    { return('('); }
+")"    { return(')'); }
+"["    { return('['); }
+"]"    { return(']'); }
+"{"    { return('{'); }
+"}"    { return('}'); }
+"<"    { return('<'); }
+">"    { return('>'); }
+"="    { return('='); }
+"<="   { return(LE); }
+">="   { return(GE); }
+"=="   { return(EQ); }
+"!="   { return(NE); }
+"&"    { return(AND); }
+"|"    { return(OR); }
+"!"    { return(NOT); }
+if     { return(IF); }
+then   { return(THEN); }
+else   { return(ELSE); }
+for    { return(FOR); }
+next   { return(NEXT); }
+while  { return(WHILE); }
+repeat { return(REPEAT); }
+until  { return(UNTIL); }
+end    { return(END); }
+true   { return(TRUE); }
+false  { return(FALSE); }
 
 [ \t]+ { ; } 
 \n     { noline++; } /* Guardamos o numero da linha atual */
-({letra}|_)({letra}|{digito}|_)*          { CREATE_NODE( idf_node, IDF ); }
-{digito}+                                 { CREATE_NODE( INT_LIT ); } /* copiamos o valor de yytext, que é o inteiro lido pelo analisador lexical para a variável yylval, que vai ser usada pelo yacc */
-{digito}+\.{digito}+([eE][+-]?{digito}+)? { CREATE_NODE( F_LIT ); }
+({letra}|_)({letra}|{digito}|_)*          { CREATE_NODE(idf_node, IDF); }
+{digito}+                                 { CREATE_NODE(int_lit_node, INT_LIT); }
+{digito}+\.{digito}+([eE][+-]?{digito}+)? { CREATE_NODE(f_lit_node, F_LIT); }
 
   /* Tratamento dos erros lexicais: a regra seguinte pega tudo o que nao
    * fechou com uma Regexp anterior.

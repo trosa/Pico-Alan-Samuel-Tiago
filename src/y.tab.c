@@ -83,7 +83,7 @@
 
   #define UNDEFINED_SYMBOL_ERROR -21
 
-  Node *syntax_tree;
+  Node *syntax_tree = NULL;
   symbol_t s_table;
   int __desloc__ = 0;
   extern int noline;
@@ -512,10 +512,10 @@ static const yytype_uint16 yyrline[] =
 {
        0,    81,    81,    82,    85,    86,    89,   191,   192,   195,
      196,   199,   200,   201,   202,   205,   206,   207,   208,   211,
-     212,   215,   216,   219,   220,   223,   231,   241,   242,   245,
-     246,   247,   248,   249,   250,   251,   252,   253,   256,   259,
-     260,   261,   264,   265,   268,   269,   270,   271,   272,   273,
-     274,   275,   276,   277,   278,   279
+     212,   215,   216,   219,   220,   223,   232,   243,   244,   247,
+     248,   249,   250,   251,   252,   253,   254,   255,   258,   261,
+     262,   263,   266,   267,   270,   271,   272,   273,   274,   275,
+     276,   277,   278,   279,   280,   281
 };
 #endif
 
@@ -1763,6 +1763,7 @@ yyreduce:
                                  if (lookup(s_table, (yyvsp[(1) - (1)].node)->lexeme) == NULL)
                                  {
                                     printf("UNDEFINED SYMBOL. A variavel %s nao foi declarada.\n", (yyvsp[(1) - (1)].node)->lexeme);
+                                    (yyval.node) = create_leaf(noline, error_node, NULL, NULL);
                                     return(UNDEFINED_SYMBOL_ERROR);
                                  }
                                  Node **c; pack_nodes(&c, 0, (yyvsp[(1) - (1)].node)); (yyval.node) = create_node(noline, lvalue_node, NULL, NULL, 1, c);
@@ -1772,11 +1773,12 @@ yyreduce:
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 231 "pico.y"
+#line 232 "pico.y"
     {
                                  if (lookup(s_table, (yyvsp[(1) - (4)].node)->lexeme) == NULL)
                                  {
                                     printf("UNDEFINED SYMBOL. A variavel %s nao foi declarada.\n", (yyvsp[(1) - (4)].node)->lexeme);
+                                    (yyval.node) = create_leaf(noline, error_node, NULL, NULL);
                                     return(UNDEFINED_SYMBOL_ERROR);
                                  }
                                  Node **c; pack_nodes(&c, 0, (yyvsp[(1) - (4)].node)); pack_nodes(&c, 1, (yyvsp[(3) - (4)].node)); (yyval.node) = create_node(noline, lvalue_node, NULL, NULL, 2, c);
@@ -1786,210 +1788,210 @@ yyreduce:
   case 27:
 
 /* Line 1455 of yacc.c  */
-#line 241 "pico.y"
+#line 243 "pico.y"
     { Node **c; pack_nodes(&c, 0, (yyvsp[(1) - (1)].node)); (yyval.node) = create_node(noline, expr_list_node,  NULL, NULL, 1, c); }
     break;
 
   case 28:
 
 /* Line 1455 of yacc.c  */
-#line 242 "pico.y"
+#line 244 "pico.y"
     { Node **c; pack_nodes(&c, 0, (yyvsp[(1) - (3)].node)); pack_nodes(&c, 1, (yyvsp[(3) - (3)].node)); (yyval.node) = create_node(noline, expr_list_node,  NULL, NULL, 2, c); }
     break;
 
   case 29:
 
 /* Line 1455 of yacc.c  */
-#line 245 "pico.y"
+#line 247 "pico.y"
     { Node **c; pack_nodes(&c, 0, (yyvsp[(1) - (3)].node)); pack_nodes(&c, 1, (yyvsp[(3) - (3)].node)); (yyval.node) = create_node(noline, plus_node,  NULL, NULL, 2, c); }
     break;
 
   case 30:
 
 /* Line 1455 of yacc.c  */
-#line 246 "pico.y"
+#line 248 "pico.y"
     { Node **c; pack_nodes(&c, 0, (yyvsp[(1) - (3)].node)); pack_nodes(&c, 1, (yyvsp[(3) - (3)].node)); (yyval.node) = create_node(noline, minus_node, NULL, NULL, 2, c); }
     break;
 
   case 31:
 
 /* Line 1455 of yacc.c  */
-#line 247 "pico.y"
+#line 249 "pico.y"
     { Node **c; pack_nodes(&c, 0, (yyvsp[(1) - (3)].node)); pack_nodes(&c, 1, (yyvsp[(3) - (3)].node)); (yyval.node) = create_node(noline, mult_node,  NULL, NULL, 2, c); }
     break;
 
   case 32:
 
 /* Line 1455 of yacc.c  */
-#line 248 "pico.y"
+#line 250 "pico.y"
     { Node **c; pack_nodes(&c, 0, (yyvsp[(1) - (3)].node)); pack_nodes(&c, 1, (yyvsp[(3) - (3)].node)); (yyval.node) = create_node(noline, div_node,   NULL, NULL, 2, c); }
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 249 "pico.y"
+#line 251 "pico.y"
     { (yyval.node) = (yyvsp[(2) - (3)].node); }
     break;
 
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 250 "pico.y"
+#line 252 "pico.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 251 "pico.y"
+#line 253 "pico.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 252 "pico.y"
+#line 254 "pico.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 37:
 
 /* Line 1455 of yacc.c  */
-#line 253 "pico.y"
+#line 255 "pico.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 38:
 
 /* Line 1455 of yacc.c  */
-#line 256 "pico.y"
+#line 258 "pico.y"
     { Node **c; pack_nodes(&c, 0, (yyvsp[(1) - (4)].node)); pack_nodes(&c, 1, (yyvsp[(3) - (4)].node)); (yyval.node) = create_node(noline, proc_node,  NULL, NULL, 2, c); }
     break;
 
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 259 "pico.y"
+#line 261 "pico.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 40:
 
 /* Line 1455 of yacc.c  */
-#line 260 "pico.y"
-    { Node **c; pack_nodes(&c, 0, (yyvsp[(1) - (7)].node)); pack_nodes(&c, 1, (yyvsp[(3) - (7)].node)); pack_nodes(&c, 2, (yyvsp[(6) - (7)].node)); pack_nodes(&c, 3, (yyvsp[(7) - (7)].node)); (yyval.node) = create_node(noline, if_node,  NULL, NULL, 4, c); }
+#line 262 "pico.y"
+    { Node **c; pack_nodes(&c, 0, (yyvsp[(3) - (7)].node)); pack_nodes(&c, 1, (yyvsp[(6) - (7)].node)); pack_nodes(&c, 2, (yyvsp[(7) - (7)].node)); (yyval.node) = create_node(noline, if_node,  NULL, NULL, 3, c); }
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 261 "pico.y"
-    { Node **c; pack_nodes(&c, 0, (yyvsp[(1) - (7)].node)); pack_nodes(&c, 1, (yyvsp[(3) - (7)].node)); pack_nodes(&c, 2, (yyvsp[(6) - (7)].node)); (yyval.node) = create_node(noline, while_node,  NULL, NULL, 3, c); }
+#line 263 "pico.y"
+    { Node **c; pack_nodes(&c, 0, (yyvsp[(3) - (7)].node)); pack_nodes(&c, 1, (yyvsp[(6) - (7)].node)); (yyval.node) = create_node(noline, while_node,  NULL, NULL, 2, c); }
     break;
 
   case 42:
 
 /* Line 1455 of yacc.c  */
-#line 264 "pico.y"
+#line 266 "pico.y"
     { (yyval.node) = create_leaf(noline, end_node, NULL, NULL); }
     break;
 
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 265 "pico.y"
+#line 267 "pico.y"
     { Node **c; pack_nodes(&c, 0, (yyvsp[(2) - (3)].node)); (yyval.node) = create_node(noline, else_node,  NULL, NULL, 1, c); }
     break;
 
   case 44:
 
 /* Line 1455 of yacc.c  */
-#line 268 "pico.y"
+#line 270 "pico.y"
     { (yyval.node) = create_leaf(noline, true_node, NULL, NULL); }
     break;
 
   case 45:
 
 /* Line 1455 of yacc.c  */
-#line 269 "pico.y"
+#line 271 "pico.y"
     { (yyval.node) = create_leaf(noline, false_node, NULL, NULL); }
     break;
 
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 270 "pico.y"
+#line 272 "pico.y"
     { (yyval.node) = (yyvsp[(2) - (3)].node); }
     break;
 
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 271 "pico.y"
+#line 273 "pico.y"
     { Node **c; pack_nodes(&c, 0, (yyvsp[(1) - (3)].node)); pack_nodes(&c, 1, (yyvsp[(3) - (3)].node)); (yyval.node) = create_node(noline, and_node,  NULL, NULL, 2, c); }
     break;
 
   case 48:
 
 /* Line 1455 of yacc.c  */
-#line 272 "pico.y"
+#line 274 "pico.y"
     { Node **c; pack_nodes(&c, 0, (yyvsp[(1) - (3)].node)); pack_nodes(&c, 1, (yyvsp[(3) - (3)].node)); (yyval.node) = create_node(noline, or_node,  NULL, NULL, 2, c); }
     break;
 
   case 49:
 
 /* Line 1455 of yacc.c  */
-#line 273 "pico.y"
+#line 275 "pico.y"
     { Node **c; pack_nodes(&c, 0, (yyvsp[(2) - (2)].node));  (yyval.node) = create_node(noline, not_node,  NULL, NULL, 1, c); }
     break;
 
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 274 "pico.y"
+#line 276 "pico.y"
     { Node **c; pack_nodes(&c, 0, (yyvsp[(1) - (3)].node)); pack_nodes(&c, 1, (yyvsp[(3) - (3)].node)); (yyval.node) = create_node(noline, sup_node,  NULL, NULL, 2, c); }
     break;
 
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 275 "pico.y"
+#line 277 "pico.y"
     { Node **c; pack_nodes(&c, 0, (yyvsp[(1) - (3)].node)); pack_nodes(&c, 1, (yyvsp[(3) - (3)].node)); (yyval.node) = create_node(noline, inf_node,  NULL, NULL, 2, c); }
     break;
 
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 276 "pico.y"
+#line 278 "pico.y"
     { Node **c; pack_nodes(&c, 0, (yyvsp[(1) - (3)].node)); pack_nodes(&c, 1, (yyvsp[(3) - (3)].node)); (yyval.node) = create_node(noline, inf_eq_node,  NULL, NULL, 2, c); }
     break;
 
   case 53:
 
 /* Line 1455 of yacc.c  */
-#line 277 "pico.y"
+#line 279 "pico.y"
     { Node **c; pack_nodes(&c, 0, (yyvsp[(1) - (3)].node)); pack_nodes(&c, 1, (yyvsp[(3) - (3)].node)); (yyval.node) = create_node(noline, sup_eq_node,  NULL, NULL, 2, c); }
     break;
 
   case 54:
 
 /* Line 1455 of yacc.c  */
-#line 278 "pico.y"
+#line 280 "pico.y"
     { Node **c; pack_nodes(&c, 0, (yyvsp[(1) - (3)].node)); pack_nodes(&c, 1, (yyvsp[(3) - (3)].node)); (yyval.node) = create_node(noline, eq_node,  NULL, NULL, 2, c); }
     break;
 
   case 55:
 
 /* Line 1455 of yacc.c  */
-#line 279 "pico.y"
+#line 281 "pico.y"
     { Node **c; pack_nodes(&c, 0, (yyvsp[(1) - (3)].node)); pack_nodes(&c, 1, (yyvsp[(3) - (3)].node)); (yyval.node) = create_node(noline, neq_node,  NULL, NULL, 2, c); }
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1993 "y.tab.c"
+#line 1995 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2201,7 +2203,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 281 "pico.y"
+#line 283 "pico.y"
 
  /* A partir daqui, insere-se qlqer codigo C necessario.
   */

@@ -28,7 +28,7 @@ typedef int Node_type;
 #define while_node     313 //
 #define print_node     314
 #define cond_node      315
-#define affect_node    316
+#define error_node     316 //
 #define or_node        317 //
 #define and_node       318 //
 #define eq_node        319 //

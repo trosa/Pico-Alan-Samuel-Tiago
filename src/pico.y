@@ -12,7 +12,7 @@
 
   #define UNDEFINED_SYMBOL_ERROR -21
 
-  Node *syntax_tree;
+  Node *syntax_tree = NULL;
   symbol_t s_table;
   int __desloc__ = 0;
   extern int noline;
@@ -224,6 +224,7 @@ lvalue: IDF                   {
                                  if (lookup(s_table, $1->lexeme) == NULL)
                                  {
                                     printf("UNDEFINED SYMBOL. A variavel %s nao foi declarada.\n", $1->lexeme);
+                                    $$ = create_leaf(noline, error_node, NULL, NULL);
                                     return(UNDEFINED_SYMBOL_ERROR);
                                  }
                                  Node **c; pack_nodes(&c, 0, $1); $$ = create_node(noline, lvalue_node, NULL, NULL, 1, c);
@@ -232,6 +233,7 @@ lvalue: IDF                   {
                                  if (lookup(s_table, $1->lexeme) == NULL)
                                  {
                                     printf("UNDEFINED SYMBOL. A variavel %s nao foi declarada.\n", $1->lexeme);
+                                    $$ = create_leaf(noline, error_node, NULL, NULL);
                                     return(UNDEFINED_SYMBOL_ERROR);
                                  }
                                  Node **c; pack_nodes(&c, 0, $1); pack_nodes(&c, 1, $3); $$ = create_node(noline, lvalue_node, NULL, NULL, 2, c);
@@ -257,8 +259,8 @@ chamaproc: IDF '(' listaexpr ')'  { Node **c; pack_nodes(&c, 0, $1); pack_nodes(
          ;
 
 enunciado: expr                                           { $$ = $1; }
-         | IF '(' expbool ')' THEN acoes fiminstcontrole  { Node **c; pack_nodes(&c, 0, $1); pack_nodes(&c, 1, $3); pack_nodes(&c, 2, $6); pack_nodes(&c, 3, $7); $$ = create_node(noline, if_node,  NULL, NULL, 4, c); }
-         | WHILE '(' expbool ')' '{' acoes '}'            { Node **c; pack_nodes(&c, 0, $1); pack_nodes(&c, 1, $3); pack_nodes(&c, 2, $6); $$ = create_node(noline, while_node,  NULL, NULL, 3, c); }
+         | IF '(' expbool ')' THEN acoes fiminstcontrole  { Node **c; pack_nodes(&c, 0, $3); pack_nodes(&c, 1, $6); pack_nodes(&c, 2, $7); $$ = create_node(noline, if_node,  NULL, NULL, 3, c); }
+         | WHILE '(' expbool ')' '{' acoes '}'            { Node **c; pack_nodes(&c, 0, $3); pack_nodes(&c, 1, $6); $$ = create_node(noline, while_node,  NULL, NULL, 2, c); }
          ;
 
 fiminstcontrole: END             { $$ = create_leaf(noline, end_node, NULL, NULL); }
