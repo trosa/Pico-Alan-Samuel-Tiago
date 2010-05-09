@@ -26,5 +26,5 @@ clean:
 	rm -f lex.yy.c y.tab.c pico
 
 debug: lex.yy.c y.tab.c symbol_table.c node.c
-	gcc -D DEBUG -o pico y.tab.c lex.yy.c symbol_table.c node.c -ll
+	gcc -g -O0 -D DEBUG -o pico y.tab.c lex.yy.c symbol_table.c node.c -ll
 	

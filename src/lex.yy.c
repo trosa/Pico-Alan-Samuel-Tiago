@@ -542,7 +542,7 @@ char *yytext;
     #define CREATE_NODE(type, token) yylval.node = create_leaf(noline, type, yytext, NULL); return(token);
 
     extern YYSTYPE yylval; /* Declaramos essa variável como externa, para que o compilador possa encontrar essa variável no y.tab.c, para poder usar no lex.yy.c. */
-    long unsigned int noline = 0;
+    long unsigned int noline = 1;
 /* Definicoes regulares (A COMPLETAR conforme a especificacao) */
 #line 548 "lex.yy.c"
 

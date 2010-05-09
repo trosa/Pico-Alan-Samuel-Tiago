@@ -87,7 +87,7 @@ int print_file_table(FILE* out, symbol_t table) {
 
    for (i = 0; i < SYMBOL_T_SIZE; i++) { /* Percorre a tabela imprimindo no arquivo o índice e o conteudo de cada posição ocupada */
       for (p = table.entries[i]; p != NULL; p = p->next) {
-         fprintf(out, "%4d %s\n", i, p->entry.name);
+         fprintf(out, "%4d %s s=%d d=%d\n", i, p->entry.name, p->entry.size, p->entry.desloc);
       }
    }
 

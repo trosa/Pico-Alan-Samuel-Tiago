@@ -2234,7 +2234,12 @@ int main(int argc, char* argv[])
    else 
       printf("ERROR.\n");
 
-   deep_free_node(syntax_tree);
+#ifdef DEBUG
+   print_table(s_table);
+#endif
+
+   if (syntax_tree != NULL)
+      deep_free_node(syntax_tree);
    free_table(&s_table);
    return(0);
 }
