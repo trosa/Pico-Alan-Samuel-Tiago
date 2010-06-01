@@ -11,6 +11,8 @@
 typedef struct {
    int c; /* constante pre-calculada pelo compilador */
    int dim; /* numero de dimensoes do array */
+   int w; /* Largura de cada elemento do array */
+   int d; /* Deslocamento (igual ao do entry_t) */
    int *linf, *lsup;
 } array_t;
 

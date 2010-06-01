@@ -6,6 +6,11 @@
 #ifndef _LISTA_C_
 #define _LISTA_C_
 
+/** Posição do próximo temporário a ser gerado pelo novo_tmp */
+int next_tmp = 0;
+int next_lbl = 0;
+int line;
+
 struct tac* create_inst_tac(const char* res, const char* arg1, 
                  const char* op, const char* arg2) {
    struct tac * t = (struct tac *)malloc(sizeof(struct tac));
@@ -21,13 +26,35 @@ struct tac* create_inst_tac(const char* res, const char* arg1,
 }
 
 void print_inst_tac(FILE* out, struct tac i) {
-   fprintf(out, "%s\t:= %s %s %s\n", i.res, i.arg1, i.op, i.arg2);
+   if (i.res[0] == '\0' && i.arg1[0] == '\0' && i.op[0] == '\0') {
+      fprintf(out, "%s:\n", i.arg2);
+      line--;
+      return;
+   }
+
+   fprintf(out, "%03d:   ", line);
+   if (i.res[0] == '-')
+      fprintf(out, "IF %s %s %s GOTO %s", i.arg1, i.op, i.arg2, i.res + 1);
+   else if (i.arg1[0] == '\0')
+      fprintf(out, "%s(%s) := %s", i.res, i.op, i.arg2);
+   else if (i.arg2[0] == '\0')
+      if (i.op[0] == '\0')
+         fprintf(out, "%s := %s", i.res, i.arg1);
+      else
+         fprintf(out, "%s %s", i.op, i.arg1);         
+   else
+      if (i.op[0] == '\0')
+         fprintf(out, "%s := %s(%s)", i.res, i.arg1, i.arg2);
+      else
+         fprintf(out, "%s := %s %s %s", i.res, i.arg1, i.op, i.arg2);
 }
 
 void print_tac(FILE* out, struct node_tac * code) {
    struct node_tac * p;
 
-   for (p = code; p != NULL; p = p->next) {
+   line = 0;
+   for (p = code; p != NULL; p = p->next, line++) {
+      fprintf(out, "\n");
       print_inst_tac(out, *(p->inst));
    }
 }
@@ -37,8 +64,7 @@ void append_inst_tac(struct node_tac ** code_ref, struct tac * inst) {
       return;
    if (*code_ref == NULL) {
       *code_ref = (struct node_tac*)malloc(sizeof(struct node_tac));
-      (*code_ref)->inst = (struct tac*)malloc(sizeof(struct tac));
-      memcpy((*code_ref)->inst, inst, sizeof(struct tac));
+      (*code_ref)->inst = inst;
       (*code_ref)->next = NULL;
       (*code_ref)->prev = NULL;
    } else {
@@ -46,8 +72,7 @@ void append_inst_tac(struct node_tac ** code_ref, struct tac * inst) {
 
       for (p = *code_ref; p->next != NULL; p = p->next);
       p->next = (struct node_tac*)malloc(sizeof(struct node_tac));
-      p->next->inst = (struct tac*)malloc(sizeof(struct tac));
-      memcpy(p->next->inst, inst, sizeof(struct tac));
+      p->next->inst = inst;
       p->next->next = NULL;
       p->next->prev = p;
    }
@@ -67,4 +92,17 @@ void cat_tac(struct node_tac ** code_a, struct node_tac ** code_b) {
    }
 }
 
+int novo_tmp(int type)
+{
+   int tmp;
+
+   tmp = next_tmp;
+   next_tmp += (type == 0)? 1: (type == 1)? 4: (type == 2)? 4: (type == 3)? 8: 0;
+   return tmp;
+}
+
+int novo_rot()
+{
+   return next_lbl++;
+}
 #endif

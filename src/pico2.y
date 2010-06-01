@@ -363,19 +363,39 @@ fiminstcontrole: END             { $$ = create_leaf(noline, end_node, NULL, NULL
 expbool: TRUE                                            { $$ = create_leaf(noline, true_node, NULL, NULL); append_inst_tac(&($$->code), create_inst_tac("", $$->t, "GOTO", "")); }
        | FALSE                                           { $$ = create_leaf(noline, false_node, NULL, NULL); append_inst_tac(&($$->code), create_inst_tac("", $$->f, "GOTO", "")); }
        | '(' expbool ')'                                 { $$ = $2; }
-       | expbool AND expbool                             {
-                                                            Node **c; pack_nodes(&c, 0, $1); pack_nodes(&c, 1, $3); $$ = create_node(noline, and_node,  NULL, NULL, 2, c);
-                                                            $$->code = $1->code;
-                                                            append_inst_tac(&($$->code), create_inst_tac("", "", "", $1->t));
-                                                            cat_tac(&($$->code), &($3->code));
+       |                                              {
+                                                         sprintf($<node>1->t, "-label%03d", novo_rot());
+                                                         strcpy($<node>1->f, $<node>$->f);
+                                                      }
+         expbool AND
+                                                      {
+                                                         strcpy($5->t, $<node>$->t); strcpy($5->f, $<node>$->f);
+                                                      }
+         expbool                                         {
+                                                            Node **c; pack_nodes(&c, 0, $2); pack_nodes(&c, 1, $5); $$ = create_node(noline, and_node,  NULL, NULL, 2, c);
+                                                            $$->code = $2->code;
+                                                            append_inst_tac(&($$->code), create_inst_tac("", "", "", $2->t));
+                                                            cat_tac(&($$->code), &($4->code));
                                                          }
-       | expbool OR expbool                              {
+       |                                              {
+                                                         strcpy($1->t, $<node>$->t);
+                                                         sprintf($1->f, "-label%03d", novo_rot());
+                                                      }
+         expbool OR
+                                                      {
+                                                         strcpy($3->t, $<node>$->t); strcpy($3->f, $<node>$->f);
+                                                      }
+         expbool                                         {
                                                             Node **c; pack_nodes(&c, 0, $<node>1); pack_nodes(&c, 1, $<node>3); $$ = create_node(noline, and_node,  NULL, NULL, 2, c);
                                                             $$->code = $<node>1->code;
                                                             append_inst_tac(&($$->code), create_inst_tac("", "", "", $<node>1->f));
                                                             cat_tac(&($$->code), &($<node>3->code));
                                                          }
-       | NOT expbool                                     {
+       | NOT
+                                                      {
+                                                         strcpy($2->t, $<node>$->f); strcpy($2->f, $<node>$->t);
+                                                      }
+         expbool                                         {
                                                             Node **c; pack_nodes(&c, 0, $<node>2);  $$ = create_node(noline, not_node,  NULL, NULL, 1, c);
                                                             $$->code = $<node>2->code;
                                                          }

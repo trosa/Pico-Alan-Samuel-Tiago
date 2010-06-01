@@ -24,7 +24,7 @@ struct tac {
  * @param arg1 um char*.
  * @param op um char*.
  * @param arg2 um char*.
- * @ return um ponteiro sobre uma 'struct tac'.
+ * @return um ponteiro sobre uma 'struct tac'.
  */
 struct tac* create_inst_tac(const char* res, const char* arg1, 
                  const char* op, const char* arg2);
@@ -56,7 +56,7 @@ void print_tac(FILE* out, struct node_tac * code);
 
 /** Insere no fim da lista 'code' o elemento 'inst'. 
  * @param code lista (possivelmente vazia) inicial, em entrada. Na saida, contem *         a mesma lista, com mais um elemento inserido no fim.
- * @inst  o elemento inserido no fim da lista.
+ * @param inst o elemento inserido no fim da lista.
  */
 void append_inst_tac(struct node_tac ** code, struct tac * inst);
 
@@ -66,5 +66,17 @@ void append_inst_tac(struct node_tac ** code, struct tac * inst);
  * @param code_b a lista concatenada com 'code_a'.
  */
 void cat_tac(struct node_tac ** code_a, struct node_tac ** code_b);
+
+/** Cria um novo temporário
+ * @param type tipo do valor a ser armazenado no temporário
+ *         (0 = char, 1 = int, 2 = real, 3 = double)
+ * @return o deslocamento do temporário em relação a Rx
+ */
+int novo_tmp(int type);
+
+/** Cria um novo rótulo
+  * @return inteiro ainda não utilizado em um rótulo gerado pela função
+  */
+int novo_rot();
 
 #endif

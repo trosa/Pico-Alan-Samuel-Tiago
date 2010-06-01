@@ -1,0 +1,27 @@
+# as output.s -o output.o
+# ld -dynamic-linker /lib/ld-linux.so.2 -o output -lc output.o
+# ./output
+
+
+.section .data					# MEM
+	filo:	.space <stack_size>		# allocates space for STACK based on TAC
+	temp:	.space <temp_size>		# allocates space for HEAP based on TAC.
+
+	intf:	.string "%d\n"			# integer format for printing.
+	
+		.equ LINUX_SYSCALL , 0x80	# alias for invoking a system call through INT.
+
+#------------------------------------------------------------------------------
+
+.section .text					# CODE
+	.extern printf
+	.global _start				# enables linker (ld) to see it.
+	.align 4				# ensures word (4 bytes, 32 bits) align of instructions.
+	
+	_start:	MOVL  $filo , %ECX		# register %ECX gets SP reference.
+		MOVL  $temp , %EDX		# register %EDX gets Rx reference.
+<code>
+	_exit:	MOVL $1 , %EAX 
+		MOVL $0 , %EBX 
+		INT $LINUX_SYSCALL
+.end

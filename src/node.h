@@ -6,48 +6,50 @@
 #define _NODE_H_
 
 #include <stdio.h> 
+#include "lista.h"
+#include "symbol_table.h"
 
 typedef int Node_type;
 
 /* Seria de constantes que servirao para definir tipos de nos (na arvore),
  * a partir da etapa 4 - irrelevante por enquanto. */
-#define program_node   299 //
-#define idf_node       300 ///
-#define int_node       301 //
-#define real_node      302 //
-#define action_node    303 //
-#define empty_node     304
-#define lvalue_node    305 //
-#define expr_list_node 306 //
-#define decl_node      307 //
-#define decl_list_node 308 //
-#define op_node        309
-#define decls_node     310 //
-#define assig_node     311 //
-#define if_node        312 //
-#define while_node     313 //
-#define print_node     314
-#define cond_node      315
-#define error_node     316 //
-#define or_node        317 //
-#define and_node       318 //
-#define eq_node        319 //
-#define neq_node       320 //
-#define inf_node       321 //
-#define sup_node       322 //
-#define inf_eq_node    323 //
-#define sup_eq_node    324 //
-#define plus_node      325 //
-#define minus_node     326 //
-#define mult_node      327 //
-#define div_node       328 //
-#define end_node       329 //
-#define else_node      330 //
-#define not_node       331 //
-#define char_node      332 //
-#define enun_node      333 //
-#define true_node      335 //
-#define false_node     336 //
+#define program_node     299 //
+#define idf_node         300 ///
+#define int_node         301 //
+#define real_node        302 //
+#define action_node      303 //
+#define empty_node       304
+#define lvalue_node      305 //
+#define expr_list_node   306 //
+#define decl_node        307 //
+#define decl_list_node   308 //
+#define op_node          309
+#define decls_node       310 //
+#define assig_node       311 //
+#define if_node          312 //
+#define while_node       313 //
+#define print_node       314 //
+#define lvalue_expr_node 315 //
+#define error_node       316 //
+#define or_node          317 //
+#define and_node         318 //
+#define eq_node          319 //
+#define neq_node         320 //
+#define inf_node         321 //
+#define sup_node         322 //
+#define inf_eq_node      323 //
+#define sup_eq_node      324 //
+#define plus_node        325 //
+#define minus_node       326 //
+#define mult_node        327 //
+#define div_node         328 //
+#define end_node         329 //
+#define else_node        330 //
+#define not_node         331 //
+#define char_node        332 //
+#define enun_node        333 //
+#define true_node        335 //
+#define false_node       336 //
 
 #define double_node       337 //
 #define int_lit_node      338 ///
@@ -70,8 +72,12 @@ typedef struct _node {
    int children_number; /**< numero de filhos do nodo*/
    int num_line;   /**< numero de linha (irrelevante por enquanto).*/
    int id;         /**< rótulo do nó. Cada nó deve ter um 'id' distinto. */
-   char* lexeme;   /**< irrelevante por enquanto. */
+   char* lexeme;   /**< Lexema. */
    Node_type type; /**< Um dos valores definidos acima pelos # defines. */
+   struct node_tac *code; /**< lista de instruções (código). */
+   char local[30], desloc[30], t[30], f[30];
+   array_t* array;
+   int ndim;
    void* attribute;/**< Qualquer coisa por enquanto. */
    /* Fim das informacoes armazenadas em cada no.
     * A seguir, completar essa estrutura de dados com o necessário para

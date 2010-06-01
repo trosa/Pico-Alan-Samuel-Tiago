@@ -71,6 +71,7 @@ until  { return(UNTIL); }
 end    { return(END); }
 true   { return(TRUE); }
 false  { return(FALSE); }
+print  { return(PRINTF); }
 
 [ \t]+ { ; } 
 \n     { noline++; } /* Guardamos o numero da linha atual */

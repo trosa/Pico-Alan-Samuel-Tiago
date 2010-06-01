@@ -1,0 +1,21 @@
+Para compilar código TAC em assembly x86, e depois obter um bniário executável:
+
+1) Gerar código TAC com o compilador pico. Por exemplo, se o código fonte se
+encontra em 'foo.pico', pode-se executar:
+   pico -o foo.tac foo.pico
+
+2) Compilar (traduzir) o código TAC em Assembly:
+   python  tac2x86.py  foo.tac
+O programa python vai imprimir coisas na tela, e gerar um arquivo chamado
+'output.s' (em assembly).
+
+3) gerar o código objeto com o comando 'as' de Linux:
+   as output.s -o output.o
+
+4) linkar o objeto com ld para obter o executável 'foo':
+    ld -dynamic-linker /lib/ld-linux.so.2 -o foo -lc output.o
+
+Pode-se executar 'foo' na linha de comando.
+
+Dica: escrever um pequeno script trivial que automatize a seqüência de 
+chamadas 2-3-4.

@@ -5,8 +5,8 @@
 # na 3a secao de 'pico.y'. A compilacao depende dos codigos C resultantes
 # das compilacoes com o flex e o yacc (regras abaixo), e de symbol_table.c
 # que eh usado no scanner.
-pico: lex.yy.c y.tab.c symbol_table.c node.c lista.c
-	gcc -o pico y.tab.c lex.yy.c symbol_table.c node.c lista.c -ll
+pico: lex.yy.c y.tab.c symbol_table.c lista.c node.c
+	gcc -o pico y.tab.c lex.yy.c symbol_table.c lista.c node.c -ll
 
 # Compilacao com o (f)lex do analisador lexical. Le os tokens a serem
 # retornados em 'tokens.h'
@@ -25,6 +25,6 @@ y.tab.c: pico.y
 clean:
 	rm -f lex.yy.c y.tab.c pico
 
-debug: lex.yy.c y.tab.c symbol_table.c node.c
-	gcc -g -O0 -D DEBUG -o pico y.tab.c lex.yy.c symbol_table.c node.c -ll
+debug: lex.yy.c y.tab.c symbol_table.c lista.c node.c
+	gcc -g -O0 -D DEBUG -o pico y.tab.c lex.yy.c symbol_table.c lista.c node.c -ll
 	

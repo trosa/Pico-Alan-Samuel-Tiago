@@ -65,7 +65,8 @@
      FOR = 281,
      NEXT = 282,
      REPEAT = 283,
-     UNTIL = 284
+     UNTIL = 284,
+     PRINTF = 285
    };
 #endif
 /* Tokens.  */
@@ -96,6 +97,7 @@
 #define NEXT 282
 #define REPEAT 283
 #define UNTIL 284
+#define PRINTF 285
 
 
 
@@ -105,14 +107,14 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 50 "pico.y"
+#line 51 "pico.y"
 
    struct _node *node;
 
 
 
 /* Line 1676 of yacc.c  */
-#line 116 "y.tab.h"
+#line 118 "y.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

@@ -43,6 +43,10 @@ Node* create_leaf(int nl, Node_type t, char* lex, void* att) {
    n->attribute = NULL;
    n->children_number = 0;
    n->id = __nodes_ids__++; /* Dessa forma cada nodo vai apresentar um ID diferente */
+   n->code = NULL;
+   n->local[0] = n->desloc[0] = '\0';
+   n->array = NULL;
+   n->ndim = 0;
 
 #ifdef DEBUG
    fprintf(stderr, "id = %d, type = %d, line = %d", n->id, n->type, n->num_line);
